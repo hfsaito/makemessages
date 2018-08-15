@@ -25,4 +25,6 @@ msgstr[0] "um livro"
 msgstr[1] "{n} livros"
 
 msgid "dog"
-msgstr "cachorro"
+msgstr ""
+"cachorro\n"
+"cachorro"

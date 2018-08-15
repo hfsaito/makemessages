@@ -4,7 +4,7 @@
   "description": "Extract and compile messages to localize a web app",
   "main": "index.js",
   "scripts": {
-    "test": "node ./dist/index.js",
+    "test": "node -i ./dist/index.js",
     "build": "tsc -w"
   },
   "repository": {

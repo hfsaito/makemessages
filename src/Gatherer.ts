@@ -1,22 +1,11 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-
-class Message {
-  // comments: string;
-  // msgctx: string;
-  // msgid: string;
-  // msgid_plural: string;
-  // msgstr: string; //[];
-
-  constructor(public msgid: string, public msgstr: string = ""){}
-
-  toString(): string{
-
-    return `msgid "${this.msgid}"\nmsgstr "${this.msgstr}"\n`;
-  }
-}
+import { POReader } from './Compiler/index';
+import { Message } from './Message';
 
 export class Gatherer {
+
+  private poreader = new POReader();
 
   private __getSource(pattern: string): string {
 
@@ -42,34 +31,17 @@ export class Gatherer {
     return Array.from(new Set(res)).map(msgid => new Message(msgid));
   }
 
-  public readPo(filePath: string): Message[] {
-
-    let source = fs.readFileSync(filePath, 'utf-8');
-    let re = /msgid ".*"\s+msgstr ".*"/g;
-    // let re = /msgid ".*"\s+(?:msgid_plural ".*"\s+)?msgstr ".*"/g;
-    let msgsRaw: string[] = [];
-
-    do {
-      var m = re.exec(source);
-      if (m)
-        msgsRaw.push(m[0]);
-    } while (m);
-
-    return msgsRaw.map(msgRaw => {
-      let msgid = /msgid "(.*)"/g.exec(msgRaw)[1];
-      let msgstr = /msgstr "(.*)"/g.exec(msgRaw)[1];
-
-      return new Message(msgid, msgstr);
-    });
-  }
-
   public mergeMessages(oldMessages: Message[], newMessages: Message[]): Message[] {
 
-    let localesJson: { [index:string]: string } = {};
-    oldMessages.forEach(msg => localesJson[msg.msgid] = msg.msgstr);
-    newMessages.forEach(msg => localesJson[msg.msgid] = localesJson[msg.msgid]?localesJson[msg.msgid]:msg.msgstr);
+    let mergedMessages:Message[] = oldMessages;
 
-    return Object.keys(localesJson).map(msgid => new Message(msgid, localesJson[msgid]));
+    newMessages.forEach(msg => {
+
+      if (!mergedMessages.some(m => m.msgctxt == msg.msgctxt && (m.msgid == msg.msgid || (m.msgid_plural == msg.msgid_plural && msg.msgid_plural.length > 0))))
+        mergedMessages.push(msg);
+    });
+    
+    return mergedMessages;
   }
 
   public po(filePath: string, filesPattern: string, gettextWrapper: string | RegExp): void {
@@ -77,10 +49,14 @@ export class Gatherer {
     let old_msgids: Message[] = [];
     let new_msgids: Message[] = this.gather(filesPattern, gettextWrapper);
     if (fs.existsSync(filePath))
-      old_msgids = this.readPo(filePath)
+      old_msgids = this.poreader.read(filePath)
 
-    console.log(old_msgids);
-    console.log(new_msgids);
-    fs.writeFileSync(filePath, this.mergeMessages(old_msgids, new_msgids).join('\n'));
+    // console.log('******************************');
+    // console.log(old_msgids);
+    // console.log('******************************');
+    // console.log(new_msgids);
+    // console.log('******************************');
+    // console.log(this.mergeMessages(old_msgids, new_msgids));
+    fs.writeFileSync('./test/samples_toignore/q.po', this.mergeMessages(old_msgids, new_msgids).map(msg => msg.pot).join('\n'));
   }
 };

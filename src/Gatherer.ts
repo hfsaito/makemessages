@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import { POReader } from './Compiler/index';
-import { Message } from './Message';
+import { POReader } from './helpers/index';
+import { Message } from './models/Message';
 
 export class Gatherer {
 
@@ -15,7 +15,7 @@ export class Gatherer {
   public gather(filesPattern: string, gettextWrapper: string | RegExp): Message[] {
 
     let source = this.__getSource(filesPattern);
-    let re: RegExp; // = /\$t\(['"].*?['"]\)/g.exec(file);
+    let re: RegExp;
     let res: string[] = [];
 
     if (typeof gettextWrapper === "string")
@@ -51,12 +51,6 @@ export class Gatherer {
     if (fs.existsSync(filePath))
       old_msgids = this.poreader.read(filePath)
 
-    // console.log('******************************');
-    // console.log(old_msgids);
-    // console.log('******************************');
-    // console.log(new_msgids);
-    // console.log('******************************');
-    // console.log(this.mergeMessages(old_msgids, new_msgids));
     fs.writeFileSync('./test/samples_toignore/q.po', this.mergeMessages(old_msgids, new_msgids).map(msg => msg.pot).join('\n'));
   }
 };

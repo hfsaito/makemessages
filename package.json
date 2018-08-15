@@ -1,0 +1,33 @@
+{
+  "name": "makemessages",
+  "version": "0.0.1",
+  "description": "Extract and compile messages to localize a web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./dist/index.js",
+    "build": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiroshifariassaito/makemessages.git"
+  },
+  "keywords": [
+    "i18n",
+    "locale"
+  ],
+  "author": "Hiroshi Farias Saito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiroshifariassaito/makemessages/issues"
+  },
+  "homepage": "https://github.com/hiroshifariassaito/makemessages#readme",
+  "devDependencies": {
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "@types/es6-shim": "^0.31.37",
+    "@types/glob": "^5.0.35",
+    "@types/node": "^10.5.8",
+    "glob": "^7.1.2"
+  }
+}

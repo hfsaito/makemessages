@@ -51,6 +51,6 @@ export class Gatherer {
     if (fs.existsSync(filePath))
       old_msgids = this.poreader.read(filePath);
 
-    fs.writeFileSync('./test/samples_toignore/q.po', this.mergeMessages(old_msgids, new_msgids).map(msg => msg.pot).join('\n'));
+    fs.writeFileSync(filePath, this.mergeMessages(old_msgids, new_msgids).map(msg => msg.pot).join('\n'));
   }
 };

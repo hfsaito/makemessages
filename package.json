@@ -1,10 +1,10 @@
 {
   "name": "makemessages",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Extract and compile messages to localize a web app",
   "main": "index.js",
   "scripts": {
-    "test": "node -i ./dist/index.js",
+    "test": "./bin/makemessages",
     "build": "tsc -w"
   },
   "repository": {
@@ -21,6 +21,9 @@
     "url": "https://github.com/hiroshifariassaito/makemessages/issues"
   },
   "homepage": "https://github.com/hiroshifariassaito/makemessages#readme",
+  "bin": {
+    "makemessages": "bin/makemessages"
+  },
   "devDependencies": {
     "typescript": "^3.0.1"
   },
@@ -28,6 +31,7 @@
     "@types/es6-shim": "^0.31.37",
     "@types/glob": "^5.0.35",
     "@types/node": "^10.5.8",
+    "cli": "^1.0.1",
     "glob": "^7.1.2"
   }
 }

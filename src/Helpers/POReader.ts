@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { findAll } from '../Helpers/RegExpAll';
-import { Message } from '../models/Message';
+import { Message } from '../models/POMessage';
 
 export class POReader {
 

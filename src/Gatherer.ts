@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
 import { POReader } from './helpers/index';
-import { Message } from './models/Message';
+import { Message } from './models/POMessage';
 
 export class Gatherer {
 
@@ -49,7 +49,7 @@ export class Gatherer {
     let old_msgids: Message[] = [];
     let new_msgids: Message[] = this.gather(filesPattern, gettextWrapper);
     if (fs.existsSync(filePath))
-      old_msgids = this.poreader.read(filePath)
+      old_msgids = this.poreader.read(filePath);
 
     fs.writeFileSync('./test/samples_toignore/q.po', this.mergeMessages(old_msgids, new_msgids).map(msg => msg.pot).join('\n'));
   }

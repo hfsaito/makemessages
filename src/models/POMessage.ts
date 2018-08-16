@@ -64,10 +64,20 @@ export class Message {
   get json(): { [index: string]: string } {
 
     let json: { [index: string]: string } = {};
-    let prefix = this.msgctxt?(this.msgctxt + '\x04'):'';
-    json[prefix + this.msgid] = this.msgstr[0]?this.msgstr[0]:'';
-    if (this.msgid_plural)
-      json[prefix + this.msgid_plural] = this.msgstr[1]?this.msgstr[1]:'';
+    if (this.msgid) {
+
+      let prefix = this.msgctxt?(this.msgctxt + '\x04'):'';
+      let key = prefix + this.msgid, value = this.msgstr[0]?this.msgstr[0]:'';
+      let keyPlural = prefix + this.msgid, valuePlural = this.msgstr[0]?this.msgstr[0]:'';
+      
+      key = key.replace(/\\n/g, '\u000a');
+      keyPlural = keyPlural.replace(/\\n/g, '\u000a');
+      value = value.replace(/\\n/g, '\u000a');
+      valuePlural = valuePlural.replace(/\\n/g, '\u000a');
+      json[key] = value;
+      if (this.msgid_plural)
+        json[keyPlural] = valuePlural;
+    }
     return json;
   }
 }

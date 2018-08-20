@@ -1,14 +1,13 @@
-import { POReader } from '../helpers/index';
-import { Message } from '../models/index';
 import * as fs from 'fs';
+import { POMessage, POReader } from '../../Gatherers/po/index';
 
-export class POCompiler {
+export class JSONCompiler {
 
   private poreader = new POReader();
   
   po2json(fileInput: string, fileOutput: string): void {
 
-    let messages: Message[] = this.poreader.read(fileInput);
+    let messages: POMessage[] = this.poreader.read(fileInput);
     let json: { [index: string]: string } = {};
     messages.forEach(m => {
       

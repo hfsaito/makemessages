@@ -1,4 +1,4 @@
-export class Message {
+export class POMessage {
 
   constructor (public msgid: string, public msgstr: string[] = [''], public comments: string[] = [], public msgctxt: string = '', public msgid_plural: string = ''){}
 
@@ -80,4 +80,4 @@ export class Message {
     }
     return json;
   }
-}
+};

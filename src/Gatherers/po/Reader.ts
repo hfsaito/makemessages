@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { findAll } from '../Helpers/RegExpAll';
-import { Message } from '../models/POMessage';
+import { findAll } from '../../helpers/RegExpAll';
+import { POMessage } from './index';
 
 export class POReader {
 
@@ -53,7 +53,7 @@ export class POReader {
     return findAll(rawMessage, this.msgstrRE).map(m => m[1].split('\n').filter(msg => msg.length > 0).map(msg => msg.slice(1, -1)).join(''));
   }
 
-  private buildMessages(rawMessages: string[]): Message[]{
+  private buildMessages(rawMessages: string[]): POMessage[]{
 
     return rawMessages.map(raw => {
 
@@ -63,11 +63,11 @@ export class POReader {
       let msgid_plural: string = this.grabMsgid_plural(raw);
       let msgstr = this.grabMsgstr(raw);
 
-      return new Message(msgid, msgstr, comments, msgctxt, msgid_plural);
+      return new POMessage(msgid, msgstr, comments, msgctxt, msgid_plural);
     });
   }
 
-  read(file: string): Message[]{
+  read(file: string): POMessage[]{
 
     return this.buildMessages(this.grabRawMessages(fs.readFileSync(file, 'utf-8')));
   }

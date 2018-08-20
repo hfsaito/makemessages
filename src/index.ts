@@ -2,8 +2,8 @@ import * as cli from 'cli';
 import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
-import { Gatherer } from './Gatherer';
-import { POCompiler } from './Compiler/index';
+import { Gatherer } from './Gatherers/po/index';
+import { JSONCompiler } from './Compilers/json/index';
 
 function absolutePath(file) { return path.resolve(process.cwd(), file); }
 
@@ -28,7 +28,7 @@ async function main() {
 		g.po(absolutePath(config.po.output) + `/${lang}/locale.po`, absolutePath(config.watch), 'gettext')
 	});
 	
-	const c = new POCompiler();
+	const c = new JSONCompiler();
 	let inputOutputDict = {};
 	glob.sync(absolutePath(config.json.input) + '/**/*.po').forEach(file => {
 

@@ -1,6 +1,6 @@
 {
   "name": "makemessages",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Extract and compile messages to localize a web app",
   "main": "index.js",
   "scripts": {

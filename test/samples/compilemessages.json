@@ -1,0 +1,15 @@
+{
+  "watch": "./test/samples/**/*.js",
+  "po": {
+    "languages": {
+      "en": "English",
+      "pt": "Portuguese",
+      "pt-br": "Brazilian Portuguese"
+    },
+    "output": "./test/samples/po/"
+  },
+  "json": {
+    "input": "./test/samples/po/",
+    "output": "./test/samples/json/"
+  }
+}

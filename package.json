@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./bin/makemessages -c './test/samples/makemessages.json'",
+    "test2": "./bin/compilemessages -c './test/samples/compilemessages.json'",
     "build": "tsc -w"
   },
   "repository": {

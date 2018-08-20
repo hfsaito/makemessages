@@ -60,24 +60,4 @@ export class POMessage {
     pot += this.msgstrPot;
     return pot;
   }
-
-  get json(): { [index: string]: string } {
-
-    let json: { [index: string]: string } = {};
-    if (this.msgid) {
-
-      let prefix = this.msgctxt?(this.msgctxt + '\x04'):'';
-      let key = prefix + this.msgid, value = this.msgstr[0]?this.msgstr[0]:'';
-      let keyPlural = prefix + this.msgid, valuePlural = this.msgstr[0]?this.msgstr[0]:'';
-      
-      key = key.replace(/\\n/g, '\u000a');
-      keyPlural = keyPlural.replace(/\\n/g, '\u000a');
-      value = value.replace(/\\n/g, '\u000a');
-      valuePlural = valuePlural.replace(/\\n/g, '\u000a');
-      json[key] = value;
-      if (this.msgid_plural)
-        json[keyPlural] = valuePlural;
-    }
-    return json;
-  }
 };

@@ -16,6 +16,7 @@ if you install locally, change your package.json:
   // ...
   "scripts": {
     "makemessages": "makemessages",
+    "compilemessages": "compilemessages",
     // ...
   }
   // ...
@@ -23,14 +24,16 @@ if you install locally, change your package.json:
 ```
 ```
 npm run makemessages -- -c "./makemessages.json"
+npm run compilemessages -- -c "./compilemessages.json"
 ```
 if you install globally:
 ```
 makemessages -c "./makemessages.json"
+compilemessages -c "./compilemessages.json"
 ```
 
 ## Configuration
-makemessages.json example
+makemessages.json/compilemessages.json example
 ```javascript
 {
   "watch": "./test/samples/**/*.js", // Files that strings will be extracted using gettext function
@@ -69,5 +72,4 @@ Expected output
 
 ### Next features
 * Able to chagne transalation function through makemessage.json
-* Build PO file header
 * Able to chagne PO file header through makemessage.json

@@ -20,7 +20,7 @@ export class POReader {
   private grabComments(rawMessage: string): string[] {
 
     this.commentsRE.lastIndex = 0;
-    return findAll(rawMessage, this.commentsRE).map(m => m[0].slice(1));
+    return findAll(rawMessage, this.commentsRE).map(m => m[0].replace(/^#\s?/g, ''));
   }
 
   private grabMsgctxt(rawMessage: string): string {

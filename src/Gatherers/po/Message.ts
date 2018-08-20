@@ -20,7 +20,7 @@ export class POMessage {
   get commentsPot(): string {
 
     if (this.comments)
-      return this.comments.map(comment => `#${comment}\n`).join('');
+      return this.comments.map(comment => `# ${comment}\n`).join('');
     return '';
   }
 

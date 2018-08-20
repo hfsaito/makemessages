@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { findAll } from '../../helpers/RegExpAll';
+import { findAll } from '../../helpers/index';
 import { POMessage } from './index';
 
 export class POReader {

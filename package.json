@@ -4,7 +4,7 @@
   "description": "Extract and compile messages to localize a web app",
   "main": "index.js",
   "scripts": {
-    "test": "./bin/makemessages",
+    "test": "./bin/makemessages -c './test/samples/makemessages.json'",
     "build": "tsc -w"
   },
   "repository": {

@@ -34,8 +34,7 @@ export class Gatherer {
 
     let oldfile: POFile;
     let newfile: POFile = new POFile(this.gather(filesPattern, gettextWrapper));
-    if (fs.existsSync(filePath))
-      oldfile = new POFile(this.poreader.read(filePath));
+    oldfile = new POFile(fs.existsSync(filePath)?this.poreader.read(filePath):[]);
 
     fs.writeFileSync(filePath, oldfile.merge(newfile).content);
   }

@@ -8,8 +8,19 @@
     },
     "output": "./test/samples/po/"
   },
-  "json": {
-    "input": "./test/samples/po/",
-    "output": "./test/samples/json/"
+  "meta": {
+    "po": {
+      "copyright": {
+        "domain": "example.com",
+        "package": "example"
+      },
+      "maintainer": {
+        "name": "Developer",
+        "email": "developer@example.com"
+      },
+      "Project-Id-Version": "0.0.1",
+      "Report-Msgid-Bugs-To": "developer@example.com",
+      "Language-Team": "Team Example"
+    }
   }
 }

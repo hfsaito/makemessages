@@ -23,7 +23,14 @@ async function main() {
 		} catch(e) {
 			fs.mkdirSync(absolutePath(config.po.output) + `/${lang}/`);
 		}
-		g.po(absolutePath(config.po.output) + `/${lang}/locale.po`, absolutePath(config.watch), 'gettext')
+		g.po(
+			absolutePath(config.po.output) + `/${lang}/locale.po`,
+			absolutePath(config.watch), 
+			'gettext',
+			lang,
+			config.po.languages[lang],
+			(config.meta && config.meta.po)?config.meta.po:undefined
+		)
 	});
 }
 

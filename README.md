@@ -33,7 +33,36 @@ compilemessages -c "./compilemessages.json"
 ```
 
 ## Configuration
-makemessages.json/compilemessages.json example
+makemessages.json example
+```javascript
+{
+  "watch": "./test/samples/**/*.js",  // Files that strings will be extracted using gettext function
+  "po": {
+    "languages": {
+      "en": "English",
+      "pt": "Portuguese",
+      "pt-br": "Brazilian Portuguese"
+    },
+    "output": "./test/samples/po/"
+  },
+  "meta": { // Optinal config
+    "po": { // Edit PO files headers
+      "copyright": {
+        "domain": "example.com",
+        "package": "example"
+      },
+      "maintainer": {
+        "name": "Developer",
+        "email": "developer@example.com"
+      },
+      "Project-Id-Version": "0.0.1",
+      "Report-Msgid-Bugs-To": "developer@example.com",
+      "Language-Team": "Team Example"
+    }
+  }
+}
+```
+compilemessages.json example
 ```javascript
 {
   "watch": "./test/samples/**/*.js", // Files that strings will be extracted using gettext function
@@ -71,5 +100,8 @@ Expected output
 ```
 
 ### Next features
-* Able to chagne transalation function through makemessage.json
-* Able to chagne PO file header through makemessage.json
+* Able to change translation function through makemessage.json
+* Optinal removing old messeges not found
+
+### Known issues
+* makemessages don't gather msgctx or plural

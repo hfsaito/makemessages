@@ -30,12 +30,19 @@ export class Gatherer {
     return Array.from(new Set(res)).map(msgid => new POMessage(msgid));
   }
 
-  public po(filePath: string, filesPattern: string, gettextWrapper: string | RegExp): void {
+  public po(
+    filePath: string,
+    filesPattern: string,
+    gettextWrapper: string | RegExp,
+    language_code: string,
+    language_name: string,
+    meta: Object
+  ): void {
 
     let oldfile: POFile;
     let newfile: POFile = new POFile(this.gather(filesPattern, gettextWrapper));
     oldfile = new POFile(fs.existsSync(filePath)?this.poreader.read(filePath):[]);
 
-    fs.writeFileSync(filePath, oldfile.merge(newfile).content);
+    fs.writeFileSync(filePath, oldfile.merge(newfile).generate(language_code, language_name, meta));
   }
 };

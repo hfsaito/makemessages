@@ -1,4 +1,5 @@
 import { POMessage } from './index';
+import { fDatetime } from '../../helpers/index';
 
 interface POHeader {
   comments: string[];
@@ -28,6 +29,43 @@ const headerDefault: POHeader = {
   }
 };
 
+export function headerTemplate(languageCode, languageName, meta): POHeader{
+
+  let resp: POHeader = {
+    comments: [
+      `Translation file for ${languageName.toLowerCase()}.`,
+    ],
+    contents: {
+      "Project-Id-Version": `${(meta && meta["Project-Id-Version"])?meta["Project-Id-Version"]:"0.0.1"}`,
+      "Report-Msgid-Bugs-To": `${(meta && meta["Report-Msgid-Bugs-To"])?meta["Report-Msgid-Bugs-To"]:""}`,
+      "POT-Creation-Date": fDatetime(new Date()),
+      "PO-Revision-Date": "",
+      "Last-Translator": "",
+      "Language-Team": `${(meta && meta["Language-Team"])?meta["Language-Team"]:""}`,
+      "Language": `${languageCode}`,
+      "MIME-Version": "1.0",
+      "Content-Type": "text/plain; charset=UTF-8",
+      "Content-Transfer-Encoding": "8bit",
+      "Plural-Forms": "nplurals=2; plural=(n > 1);"
+    }
+  };
+
+  if (meta) {
+
+    if (meta.copyright) {
+  
+      resp.comments.push(`Copyright (C) ${(new Date).getFullYear()}'s ${meta.copyright.domain}`);
+      resp.comments.push(`This file is distributed under the same license as the ${meta.copyright.package} package.`);
+    }
+
+    if (meta.maintainer)
+      resp.comments.push(`${meta.maintainer.name} <${meta.maintainer.email}>, ${(new Date).getFullYear()}.`);
+  }
+  resp.comments.push("");
+
+  return resp;
+}
+
 export class POFile {
 
   readonly messages: POMessage[];
@@ -55,12 +93,13 @@ export class POFile {
     return new POFile(mergedMessages);
   };
 
-  get content(): string {
+  generate(langauge_code?: string, language_name?: string, meta?: Object): string {
 
-    let header = this.header, now = new Date();
-    header.contents["POT-Creation-Date"] = `${now.getFullYear()}-${('0' + (now.getMonth()+1)).slice(-2)}-${('0' + now.getDate()).slice(-2)} ${('0' + now.getHours()).slice(-2)}:${('0' + now.getMinutes()).slice(-2)}`;
-    header.contents["POT-Creation-Date"] += `${now.getTimezoneOffset() <= 0?'+':'-'}${('0' + Math.round(Math.abs(now.getTimezoneOffset())/60)).slice(-2)}${('0' + Math.round(Math.abs(now.getTimezoneOffset())%60)).slice(-2)}`;
-    this.header = header;
+    let header = this.header;
+    let defaultHeader = headerTemplate(langauge_code, language_name, meta);
+    defaultHeader.contents["PO-Revision-Date"] = header.contents["PO-Revision-Date"];
+    defaultHeader.contents["Last-Translator"] = header.contents["Last-Translator"];
+    this.header = defaultHeader;
     return this.messages.map(msg => msg.pot).join('\n');
   }
 

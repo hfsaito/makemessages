@@ -1,9 +1,6 @@
 import * as cli from 'cli';
-import * as fs from 'fs';
 import * as path from 'path';
-import { Gatherer } from './Gatherers/po/index';
-
-function absolutePath(file) { return path.resolve(process.cwd(), file); }
+import { Gatherer as POGatherer } from './Gatherers/po/index';
 
 let args = cli.parse({
 	config: [ 'c', 'A json file with your configurations', 'file', './makemessages.json' ]
@@ -11,27 +8,30 @@ let args = cli.parse({
 
 async function main() {
 
-	const config = await import(absolutePath(args.config)).catch(console.error);
+	const config = await import(path.resolve(process.cwd(), args.config)).catch(console.error);
 	if (!config)
 		return;
 
-	let g = new Gatherer();
-	Object.keys(config.po.languages).forEach(lang => {
+	if (!config.outputs)
+		throw new Error("missing \"outputs\" in config.json file");
 
-		try {
-			fs.statSync(absolutePath(config.po.output) + `/${lang}/`);
-		} catch(e) {
-			fs.mkdirSync(absolutePath(config.po.output) + `/${lang}/`);
-		}
-		g.po(
-			absolutePath(config.po.output) + `/${lang}/locale.po`,
-			absolutePath(config.watch), 
-			'gettext',
-			lang,
-			config.po.languages[lang],
-			(config.meta && config.meta.po)?config.meta.po:undefined
-		)
-	});
+	if (config.outputs.po) {
+
+		let output = Object.assign(config.outputs.any?config.outputs.any:{}, config.outputs.po);
+		let meta = (config.meta && config.meta.po)?config.meta.po:undefined;
+		let g = new POGatherer();
+		Object.keys(output.languages).forEach(lang => {
+	
+			g.po(
+				path.resolve(process.cwd(), output.dest, `${output.fileName.replace(/\[lang\]/g, lang)}.po`),
+				path.resolve(process.cwd(), output.src), 
+				'gettext',
+				lang,
+				output.languages[lang],
+				meta
+			);
+		});
+	}
 }
 
 main();

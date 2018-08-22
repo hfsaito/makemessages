@@ -1,13 +1,4 @@
 {
-  "watch": "./test/samples/**/*.js",
-  "po": {
-    "languages": {
-      "en": "English",
-      "pt": "Portuguese",
-      "pt-br": "Brazilian Portuguese"
-    },
-    "output": "./test/samples/po/"
-  },
   "meta": {
     "po": {
       "copyright": {
@@ -21,6 +12,20 @@
       "Project-Id-Version": "0.0.1",
       "Report-Msgid-Bugs-To": "developer@example.com",
       "Language-Team": "Team Example"
+    }
+  },
+  "outputs": {
+    "any": {
+      "languages": {
+        "en": "English",
+        "pt": "Portuguese",
+        "pt-br": "Brazilian Portuguese"
+      }
+    },  
+    "po": {
+      "src": "./test/samples/**/*.js",
+      "dest": "./test/samples/po/",
+      "fileName": "[lang]"
     }
   }
 }

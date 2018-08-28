@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { findAll } from '../../helpers/index';
-import { POMessage } from './index';
+import Message from './Message';
 
-export class POReader {
+export default class Reader {
 
   private messageRE = /(?:#.*\n)*(?:msgctxt (?:".*"\n)+)?msgid (?:".*"\n)+(?:msgid_plural (?:".*"\n)+)?(?:msgstr(?:\[\d+\])? (?:".*"\n?)+)+/g;
   private commentsRE = /#.*/g;
@@ -53,7 +53,7 @@ export class POReader {
     return findAll(rawMessage, this.msgstrRE).map(m => m[1].split('\n').filter(msg => msg.length > 0).map(msg => msg.slice(1, -1)).join(''));
   }
 
-  private buildMessages(rawMessages: string[]): POMessage[]{
+  private buildMessages(rawMessages: string[]): Message[]{
 
     return rawMessages.map(raw => {
 
@@ -63,11 +63,11 @@ export class POReader {
       let msgid_plural: string = this.grabMsgid_plural(raw);
       let msgstr = this.grabMsgstr(raw);
 
-      return new POMessage(msgid, msgstr, comments, msgctxt, msgid_plural);
+      return new Message(msgid, msgstr, comments, msgctxt, msgid_plural);
     });
   }
 
-  read(file: string): POMessage[]{
+  read(file: string): Message[]{
 
     return this.buildMessages(this.grabRawMessages(fs.readFileSync(file, 'utf-8')));
   }

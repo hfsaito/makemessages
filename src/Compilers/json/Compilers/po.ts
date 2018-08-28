@@ -1,13 +1,14 @@
 import * as fs from 'fs';
-import { POMessage, POReader } from '../../../Gatherers/po/index';
+import Message from '../../../Gatherers/po/Message';
+import Reader from '../../../Gatherers/po/Reader';
 
 export class PO2JSONCompiler {
 
-  private poreader = new POReader();
+  private poreader = new Reader();
   
   po2json(fileInput: string, fileOutput: string): void {
 
-    let messages: POMessage[] = this.poreader.read(fileInput);
+    let messages: Message[] = this.poreader.read(fileInput);
     let json: { [index: string]: string } = {};
     messages.forEach(m => {
       
@@ -16,7 +17,7 @@ export class PO2JSONCompiler {
     fs.writeFileSync(fileOutput, JSON.stringify(json,  null, 4));
   }
 
-  json(message: POMessage): { [index: string]: string } {
+  json(message: Message): { [index: string]: string } {
 
     let json: { [index: string]: string } = {};
     if (message.msgid) {

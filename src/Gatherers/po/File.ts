@@ -1,4 +1,4 @@
-import { POMessage } from './index';
+import Message from './Message';
 import { fDatetime } from '../../helpers/index';
 
 interface POHeader {
@@ -29,7 +29,7 @@ const headerDefault: POHeader = {
   }
 };
 
-export function headerTemplate(languageCode, languageName, meta): POHeader{
+function headerTemplate(languageCode, languageName, meta): POHeader{
 
   let resp: POHeader = {
     comments: [
@@ -64,13 +64,13 @@ export function headerTemplate(languageCode, languageName, meta): POHeader{
   resp.comments.push("");
 
   return resp;
-}
+};
 
-export class POFile {
+export default class File {
 
-  readonly messages: POMessage[];
+  readonly messages: Message[];
 
-  constructor(messages: POMessage[], header?: { [index: string]: string }){
+  constructor(messages: Message[], header?: { [index: string]: string }){
 
     this.messages = messages;
     let headerMergedDefault: POHeader = {
@@ -80,9 +80,9 @@ export class POFile {
     this.header = headerMergedDefault;
   }
 
-  merge(newfile: POFile): POFile {
+  merge(newfile: File): File {
 
-    let mergedMessages:POMessage[] = this.messages;
+    let mergedMessages:Message[] = this.messages;
   
     newfile.messages.forEach(msg => {
   
@@ -90,7 +90,7 @@ export class POFile {
         mergedMessages.push(msg);
     });
       
-    return new POFile(mergedMessages);
+    return new File(mergedMessages);
   };
 
   generate(langauge_code?: string, language_name?: string, meta?: Object): string {
@@ -105,10 +105,10 @@ export class POFile {
 
   get header(): POHeader {
 
-    let msgHeader: POMessage = this.messages.find(msg => msg.msgid == '');
+    let msgHeader: Message = this.messages.find(msg => msg.msgid == '');
     let resp: POHeader = { comments: [], contents: {} };
     if (!msgHeader)
-      msgHeader = new POMessage('');
+      msgHeader = new Message('');
 
     msgHeader.msgstr[0]
       .split('\\n')
@@ -121,10 +121,10 @@ export class POFile {
 
   set header(newheader: POHeader) {
 
-    let msgHeader: POMessage = this.messages.find(msg => msg.msgid == '');
+    let msgHeader: Message = this.messages.find(msg => msg.msgid == '');
     if (msgHeader)
       this.messages.splice(this.messages.findIndex(msg => msg.msgid == ''), 1);
-    this.messages.splice(0, 0, new POMessage(
+    this.messages.splice(0, 0, new Message(
       '',
       [ Object.keys(newheader.contents).filter(headerOpt => headerOpt).map(headerOpt => `${headerOpt}: ${newheader.contents[headerOpt]}`).join('\\n') + '\\n' ],
       newheader.comments

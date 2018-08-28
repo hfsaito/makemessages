@@ -1,6 +1,15 @@
-{
-  "meta": {
-    "po": {
+[
+  {
+    "type": "po",
+    "input": "./test/samples/**/*.js",
+    "output": "./test/samples/po/",
+    "function": "$t",
+    "languages": {
+      "en": "English",
+      "pt": "Portuguese",
+      "pt-br": "Brazilian Portuguese"
+    },
+    "meta": {
       "copyright": {
         "domain": "example.com",
         "package": "example"
@@ -13,19 +22,5 @@
       "Report-Msgid-Bugs-To": "developer@example.com",
       "Language-Team": "Team Example"
     }
-  },
-  "outputs": {
-    "any": {
-      "languages": {
-        "en": "English",
-        "pt": "Portuguese",
-        "pt-br": "Brazilian Portuguese"
-      }
-    },  
-    "po": {
-      "src": "./test/samples/**/*.js",
-      "dest": "./test/samples/po/",
-      "fileName": "[lang]"
-    }
   }
-}
+]

@@ -1,17 +1,19 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import { POFile, POMessage, POReader } from './index';
+import Message from './Message';
+import File from './File';
+import Reader from './Reader';
 
-export class Gatherer {
+export default class Gatherer {
 
-  private poreader = new POReader();
+  private poreader = new Reader();
 
   private __getSource(pattern: string): string {
 
     return glob.sync(pattern).map(fileName => fs.readFileSync(fileName, 'utf-8')).join('\n\n');
   }
 
-  public gather(filesPattern: string, gettextWrapper: string | RegExp): POMessage[] {
+  public gather(filesPattern: string, gettextWrapper: string | RegExp): Message[] {
 
     let source = this.__getSource(filesPattern);
     let re: RegExp;
@@ -27,7 +29,7 @@ export class Gatherer {
       if (m)
         res.push(m.reverse()[0]);
     } while (m);
-    return Array.from(new Set(res)).map(msgid => new POMessage(msgid));
+    return Array.from(new Set(res)).map(msgid => new Message(msgid));
   }
 
   public po(
@@ -39,9 +41,9 @@ export class Gatherer {
     meta: Object
   ): void {
 
-    let oldfile: POFile;
-    let newfile: POFile = new POFile(this.gather(filesPattern, gettextWrapper));
-    oldfile = new POFile(fs.existsSync(filePath)?this.poreader.read(filePath):[]);
+    let oldfile: File;
+    let newfile: File = new File(this.gather(filesPattern, gettextWrapper));
+    oldfile = new File(fs.existsSync(filePath)?this.poreader.read(filePath):[]);
 
     fs.writeFileSync(filePath, oldfile.merge(newfile).generate(language_code, language_name, meta));
   }

@@ -1,13 +1,14 @@
 export function findAll(source: string, re: RegExp): RegExpExecArray[] {
 
   let matches: RegExpExecArray[] = [];
-  let found: RegExpExecArray;
-  re.lastIndex = 0;
-  do {
+  source.replace(re, (...args) => {
 
-    found = re.exec(source);
-    if (found)
-      matches.push(found);
-  } while(found);
+    let m: RegExpExecArray = <RegExpExecArray> args.slice(0, -2);
+    m.index = args.reverse()[1];
+    m.input = args.reverse()[0];
+    m.push()
+    matches.push(m);
+    return args[0];
+  });
   return matches;
 }

@@ -1,5 +1,5 @@
 import * as cli from 'cli';
-import { absolutePath } from './helpers/index';
+import { absolutePath, RegexNamedGroups } from './helpers/index';
 import * as Gatherers from './Gatherers/index';
 
 let args = cli.parse({
@@ -14,11 +14,12 @@ async function main() {
 
 	configs.forEach(config => {
 
+		config.functions = config.functions.map((f) => new RegexNamedGroups(f, "g"));
 		switch(config.type) {
 		case 'po':
 			Gatherers.po(config);
 			break;
-		default:
+		default: 
 			throw new Error("Invalid configuration type, expected: po");
 		}
 	});

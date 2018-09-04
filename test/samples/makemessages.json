@@ -3,7 +3,12 @@
     "type": "po",
     "input": "./test/samples/**/*.js",
     "output": "./test/samples/po/",
-    "function": "$t",
+    "functions": [
+        "(?:^|[^$\\w])gettext\\(['\"](?<singular>.*?)['\"]\\)",
+        "(?:^|[^$\\w])pgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"]\\)",
+        "(?:^|[^$\\w])ngettext\\(['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)",
+        "(?:^|[^$\\w])npgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)"
+    ],
     "languages": {
       "en": "English",
       "pt": "Portuguese",

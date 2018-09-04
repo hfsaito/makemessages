@@ -3,6 +3,7 @@ import * as glob from 'glob';
 import Message from './Message';
 import File from './File';
 import Reader from './Reader';
+import { findAll, RegexNamedGroups } from '../../helpers/index';
 
 export default class Gatherer {
 
@@ -13,36 +14,38 @@ export default class Gatherer {
     return glob.sync(pattern).map(fileName => fs.readFileSync(fileName, 'utf-8')).join('\n\n');
   }
 
-  public gather(filesPattern: string, gettextWrapper: string | RegExp): Message[] {
+  public gather(filesPattern: string, functionWrappers: RegexNamedGroups[]): Message[] {
 
     let source = this.__getSource(filesPattern);
-    let re: RegExp;
-    let res: string[] = [];
+    let response: Message[] = [];
 
-    if (typeof gettextWrapper === "string")
-      re = new RegExp(gettextWrapper.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + /\(['"](.*?)['"]\)/.source, 'g');
-    else
-      re = new RegExp(gettextWrapper.source + /\(['"](.*?)['"]\)/.source, 'g');
+    functionWrappers.forEach(fw => {
 
-    do {
-      var m = re.exec(source);
-      if (m)
-        res.push(m.reverse()[0]);
-    } while (m);
-    return Array.from(new Set(res)).map(msgid => new Message(msgid));
+      let messages = findAll(source, fw);
+      response = response.concat(messages.map(m => {
+
+        let context = m[fw.getGroupIndex("context")];
+        let singular = m[fw.getGroupIndex("singular")];
+        let plural = m[fw.getGroupIndex("plural")];
+        // let number = m[fw.getGroupIndex("number")];
+        return new Message(singular, [], [], context?context:"", plural?plural:"");
+      }))
+    });
+
+    return response;
   }
 
   public po(
     filePath: string,
     filesPattern: string,
-    gettextWrapper: string | RegExp,
+    functionWrappers: RegexNamedGroups[],
     language_code: string,
     language_name: string,
     meta: Object
   ): void {
 
     let oldfile: File;
-    let newfile: File = new File(this.gather(filesPattern, gettextWrapper));
+    let newfile: File = new File(this.gather(filesPattern, functionWrappers));
     oldfile = new File(fs.existsSync(filePath)?this.poreader.read(filePath):[]);
 
     fs.writeFileSync(filePath, oldfile.merge(newfile).generate(language_code, language_name, meta));

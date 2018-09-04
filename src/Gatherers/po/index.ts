@@ -12,7 +12,7 @@ export default function(config) {
     g.po(
       absolutePath(config.output) + `/${lang}.po`,
       absolutePath(config.input), 
-      config.function,
+      config.functions,
       lang,
       config.languages[lang],
       config.meta

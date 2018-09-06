@@ -1,7 +1,7 @@
 # makemessages
-Extract and compile messages to localize a web app
+Extract and compile messages to localize a web app using Regular Expressions.
 
-This package intends to work simliar to django's makemessages and compilemessages commands
+This package intends to work simliar to django's makemessages and compilemessages commands.
 
 ## Installation
 ```
@@ -32,21 +32,28 @@ makemessages -c "./makemessages.json"
 compilemessages -c "./compilemessages.json"
 ```
 
-## Configuration
-makemessages.json example
+### Configuration
+makemessages json configuration file must have a list to how to process your files
+
+Example:
 ```javascript
-{
-  "watch": "./test/samples/**/*.js",  // Files that strings will be extracted using gettext function
-  "po": {
+[
+  {
+    "type": "po", // Valid types: po (only .po files implemented for now)
+    "input": "./test/samples/**/*.js", // glob pattern to search your files
+    "output": "./test/samples/po/", // if there is already some previous file in this folder, next result will be a merge between existing messages and new found ones
+    "functions": [ // Array<string> that will initiate regular expression objects to look for your messages
+        "(?:^|[^$\\w])gettext\\(['\"](?<singular>.*?)['\"]\\)",
+        "(?:^|[^$\\w])pgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"]\\)",
+        "(?:^|[^$\\w])ngettext\\(['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)",
+        "(?:^|[^$\\w])npgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)"
+    ],
     "languages": {
       "en": "English",
       "pt": "Portuguese",
       "pt-br": "Brazilian Portuguese"
     },
-    "output": "./test/samples/po/"
-  },
-  "meta": { // Optinal config
-    "po": { // Edit PO files headers
+    "meta": { // meta data that will be inserted into your .po files
       "copyright": {
         "domain": "example.com",
         "package": "example"
@@ -60,8 +67,9 @@ makemessages.json example
       "Language-Team": "Team Example"
     }
   }
-}
+]
 ```
+
 compilemessages.json example
 ```javascript
 {

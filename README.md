@@ -72,21 +72,28 @@ Example:
 
 compilemessages.json example
 ```javascript
-{
-  "watch": "./test/samples/**/*.js", // Files that strings will be extracted using gettext function
-  "po": {
-    "languages": {
-      "en": "English",
-      "pt": "Portuguese",
-      "pt-br": "Brazilian Portuguese"
+[
+  { // Every instance has a input and output with a type and target
+    "input": {
+      "type": "po",
+      "target": "./test/samples/po/*.po" 
     },
-    "output": "./path/to/output/po/"
+    "output": {
+      "type": "json",
+      "target": "./test/samples/json/"
+    }
   },
-  "json": {
-    "input": "./path/to/output/po/",
-    "output": "./path/to/output/json/"
+  {
+    "input": {
+      "type": "po",
+      "target": "./test/samples/po/*.po" 
+    },
+    "output": {
+      "type": "javascript",
+      "target": "./test/samples/js/"
+    }
   }
-}
+]
 ```
 Expected output
 ```
@@ -96,14 +103,10 @@ Expected output
     pt.po
     pt-br.po
   json/
-    en/
-      locale.json
-    pt/
-      locale.json
-    pt-br/
-      locale.json
+    en.json
+    pt.json
+    pt-br.json
 ```
 
 ### Next features
 * Optinal configuration: removing old messeges not found
-* Able to choose a output type in compilemessages

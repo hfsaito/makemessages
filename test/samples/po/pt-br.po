@@ -17,18 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+msgctxt "things"
+msgid "one book"
+msgid_plural "{n} books"
+msgstr[0] "um livro"
+msgstr[1] "{n} livros"
+
+msgid "dog"
+msgstr ""
+"cachorro\n"
+"cachorro"
+
 msgid ""
 "Testing\n"
 "Keep Testing"
-msgstr ""
-
-msgid "Username"
-msgstr ""
+msgstr "Testando"
 
 msgid "Password"
 msgstr ""
 
 msgid "Rules"
+msgstr ""
+
+msgid "Username"
 msgstr ""
 
 msgid "Egg"

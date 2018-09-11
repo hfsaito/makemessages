@@ -1,11 +1,14 @@
 {
-    "things\u0004one book": "um livro",
-    "dog": "cachorro\ncachorro",
-    "Testing\nKeep Testing": "Testando",
+    "things\u0004one book": "one book",
+    "things\u0004{n} books": "{n} books",
+    "dog": "dog\ndog",
+    "Testing\nKeep Testing": "Testing",
     "Password": "",
     "Rules": "",
     "Username": "",
     "Egg": "",
+    "Eggs": "",
     "weekday\u0004Sunday": "",
+    "weekday\u0004Sundays": "",
     "fruit\u0004orange": ""
 }

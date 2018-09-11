@@ -1,48 +1,60 @@
-// import * as cli from 'cli';
-// import * as fs from 'fs';
-// import * as glob from 'glob';
-// import * as path from 'path';
-// import { Gatherer } from './Gatherers/po/index';
-// import { JSONCompiler } from './Compilers/json/index';
+import { poGather } from './po/index';
 
-// function absolutePath(file) { return path.resolve(process.cwd(), file); }
+export function makemessages(configs) {
 
-// let args = cli.parse({
-// 	config: [ 'c', 'A json file with your configurations', 'file', './makemessages.json' ]
-// });
+	configs.forEach(config => {
 
-// async function main() {
+		switch(config.type) {
+		case 'po':
+			poGather(config);
+			break;
+		default: 
+			throw new Error("Invalid configuration type, expected: po");
+		}
+	});
+};
 
-// 	const config = await import(absolutePath(args.config)).catch(console.error);
-// 	if (!config)
-// 		return;
+import { poReadMultiple, PoFile } from './po/index';
+import { jsonCompilePo } from './json/index';
 
-// 	let g = new Gatherer();
-// 	Object.keys(config.po.languages).forEach(lang => {
+export function compilemessages(configs) {
 
-// 		try {
-// 			fs.statSync(absolutePath(config.po.output) + `/${lang}/`);
-// 		} catch(e) {
-// 			fs.mkdirSync(absolutePath(config.po.output) + `/${lang}/`);
-// 		}
-// 		g.po(absolutePath(config.po.output) + `/${lang}/locale.po`, absolutePath(config.watch), 'gettext')
-// 	});
-	
-// 	const c = new JSONCompiler();
-// 	let inputOutputDict = {};
-// 	glob.sync(absolutePath(config.json.input) + '/**/*.po').forEach(file => {
+	configs.forEach(config => {
+		
+		let input: PoFile[];
+		switch(config.input.type) {
+		case 'po':
+			input = poReadMultiple(config.input.target);
+			break;
+		default: 
+			throw new Error("Invalid configuration type, expected: po");
+		}
 
-// 		inputOutputDict[file] = file.replace(absolutePath(config.json.input), absolutePath(config.json.output)).replace(/\.po$/g, '.json');
-// 	});
-// 	Object.keys(inputOutputDict).forEach(input => {
-	
-// 		try {
-// 			fs.statSync(path.dirname(inputOutputDict[input]));
-// 		} catch(e) {
-// 			fs.mkdirSync(path.dirname(inputOutputDict[input]));
-// 		}
-// 		c.po2json(input, inputOutputDict[input])
-// 	});
-// }
+		switch(config.output.type) {
+		case 'javascript':
+			// javascriptCreate(config.output.target);
+			break;
+		case 'json':
+			jsonCompilePo(input, config.output.target); // jsonCreate(config.output.target);
+			break;
+		default: 
+			throw new Error("Invalid configuration type, expected: javascript or json");
+		}
 
-// main();
+		// const c = new PO2JSONCompiler();
+		// let inputOutputDict = {};
+		// glob.sync(absolutePath(config.input.target)).forEach(file => {
+			
+		// 	inputOutputDict[file] = file.replace(absolutePath(config.json.input), absolutePath(config.json.output)).replace(/\.po$/g, '.json');
+		// });
+		// Object.keys(inputOutputDict).forEach(input => {
+			
+		// 	try {
+		// 		fs.statSync(path.dirname(inputOutputDict[input]));
+		// 	} catch(e) {
+		// 		fs.mkdirSync(path.dirname(inputOutputDict[input]));
+		// 	}
+		// 	c.po2json(input, inputOutputDict[input])
+		// });
+	});
+};

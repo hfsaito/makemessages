@@ -1,15 +1,22 @@
-{
-  "watch": "./test/samples/**/*.js",
-  "po": {
-    "languages": {
-      "en": "English",
-      "pt": "Portuguese",
-      "pt-br": "Brazilian Portuguese"
+[
+  {
+    "input": {
+      "type": "po",
+      "target": "./test/samples/po/*.po" 
     },
-    "output": "./test/samples/po/"
+    "output": {
+      "type": "json",
+      "target": "./test/samples/json/"
+    }
   },
-  "json": {
-    "input": "./test/samples/po/",
-    "output": "./test/samples/json/"
+  {
+    "input": {
+      "type": "po",
+      "target": "./test/samples/po/*.po" 
+    },
+    "output": {
+      "type": "javascript",
+      "target": "./test/samples/js/"
+    }
   }
-}
+]

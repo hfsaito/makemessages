@@ -1,5 +1,6 @@
+import * as path from 'path';
 import Message from './Message';
-import { fDatetime } from '../../helpers/index';
+import { fDatetime } from '../helpers/index';
 
 interface POHeader {
   comments: string[];
@@ -66,11 +67,12 @@ function headerTemplate(languageCode, languageName, meta): POHeader{
   return resp;
 };
 
-export default class File {
+export class PoFile {
 
+  readonly name: string;
   readonly messages: Message[];
 
-  constructor(messages: Message[], header?: { [index: string]: string }){
+  constructor(messages: Message[], name?: string){
 
     this.messages = messages;
     let headerMergedDefault: POHeader = {
@@ -78,9 +80,10 @@ export default class File {
       contents: Object.assign(headerDefault.contents, this.header.contents)
     }
     this.header = headerMergedDefault;
+    this.name = name?path.basename(name):'';
   }
 
-  merge(newfile: File): File {
+  merge(newfile: PoFile): PoFile {
 
     let mergedMessages:Message[] = this.messages;
   
@@ -90,7 +93,7 @@ export default class File {
         mergedMessages.push(msg);
     });
       
-    return new File(mergedMessages);
+    return new PoFile(mergedMessages);
   };
 
   generate(langauge_code?: string, language_name?: string, meta?: Object): string {

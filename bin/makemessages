@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../dist/makemessages.js')
+require('../dist/makemessages.js');

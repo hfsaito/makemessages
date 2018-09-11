@@ -89,7 +89,7 @@ compilemessages.json example
       "target": "./test/samples/po/*.po" 
     },
     "output": {
-      "type": "javascript",
+      "type": "javascript", // Output not implemented yet
       "target": "./test/samples/js/"
     }
   }
@@ -109,4 +109,5 @@ Expected output
 ```
 
 ### Next features
+* Output a javascript file with an encapsulated function
 * Optinal configuration: removing old messeges not found

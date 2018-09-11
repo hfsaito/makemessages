@@ -92,12 +92,9 @@ Expected output
 ```
 ./path/to/output/
   po/
-    en/
-      locale.po
-    pt/
-      locale.po
-    pt-br/
-      locale.po
+    en.po
+    pt.po
+    pt-br.po
   json/
     en/
       locale.json
@@ -108,8 +105,5 @@ Expected output
 ```
 
 ### Next features
-* Able to change translation function through makemessage.json
-* Optinal removing old messeges not found
-
-### Known issues
-* makemessages don't gather msgctx or plural
+* Optinal configuration: removing old messeges not found
+* Able to choose a output type in compilemessages

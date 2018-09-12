@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { PoFile } from '../po/index';
-import Message from '../po/Message';
 
-export function jsonFromPoMessage(message: Message): { [index: string]: string } {
+import { PoMessage, PoFile } from '../po/index';
+
+function jsonFromPoMessage(message: PoMessage): { [index: string]: string } {
 
   let json: { [index: string]: string } = {};
   if (message.msgid) {
@@ -23,18 +23,18 @@ export function jsonFromPoMessage(message: Message): { [index: string]: string }
   return json;
 };
 
-function jsonFromPo(file: PoFile): { [index: string]: string } {
+export function jsonFromPo(file: PoFile): { [index: string]: string } {
 
   let json: { [index: string]: string } = {};
   file.messages.forEach(m => { json = { ...json, ...jsonFromPoMessage(m) }; });
   return json;
 }
 
-export function jsonPo(input: PoFile[], output: string): void {
+export function jsonPo(input: PoFile[], output): void {
 
   input.forEach(f => {
 
     let content: string = JSON.stringify(jsonFromPo(f), null, 4);
-    fs.writeFileSync(path.resolve(output, f.name.replace(/\.po$/g, '.json')), content);
+    fs.writeFileSync(path.resolve(output.target, f.name.replace(/\.po$/g, '.json')), content);
   });
 };

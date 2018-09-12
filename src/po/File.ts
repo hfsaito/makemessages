@@ -1,6 +1,8 @@
 import * as path from 'path';
-import Message from './Message';
+
 import { fDatetime } from '../helpers/index';
+
+import { PoMessage } from './index';
 
 interface POHeader {
   comments: string[];
@@ -70,9 +72,9 @@ function headerTemplate(languageCode, languageName, meta): POHeader{
 export class PoFile {
 
   readonly name: string;
-  readonly messages: Message[];
+  readonly messages: PoMessage[];
 
-  constructor(messages: Message[], name?: string){
+  constructor(messages: PoMessage[], name?: string){
 
     this.messages = messages;
     let headerMergedDefault: POHeader = {
@@ -85,7 +87,7 @@ export class PoFile {
 
   merge(newfile: PoFile): PoFile {
 
-    let mergedMessages:Message[] = this.messages;
+    let mergedMessages:PoMessage[] = this.messages;
   
     newfile.messages.forEach(msg => {
   
@@ -108,10 +110,10 @@ export class PoFile {
 
   get header(): POHeader {
 
-    let msgHeader: Message = this.messages.find(msg => msg.msgid == '');
+    let msgHeader: PoMessage = this.messages.find(msg => msg.msgid == '');
     let resp: POHeader = { comments: [], contents: {} };
     if (!msgHeader)
-      msgHeader = new Message('');
+      msgHeader = new PoMessage('');
 
     msgHeader.msgstr[0]
       .split('\\n')
@@ -124,10 +126,10 @@ export class PoFile {
 
   set header(newheader: POHeader) {
 
-    let msgHeader: Message = this.messages.find(msg => msg.msgid == '');
+    let msgHeader: PoMessage = this.messages.find(msg => msg.msgid == '');
     if (msgHeader)
       this.messages.splice(this.messages.findIndex(msg => msg.msgid == ''), 1);
-    this.messages.splice(0, 0, new Message(
+    this.messages.splice(0, 0, new PoMessage(
       '',
       [ Object.keys(newheader.contents).filter(headerOpt => headerOpt).map(headerOpt => `${headerOpt}: ${newheader.contents[headerOpt]}`).join('\\n') + '\\n' ],
       newheader.comments

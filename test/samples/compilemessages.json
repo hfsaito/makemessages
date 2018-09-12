@@ -17,11 +17,11 @@
     "output": {
       "type": "javascript",
       "target": "./test/samples/js/",
-      "functions": {
-        "simple": "gettext",
-        "plural": "ngettext",
-        "context": "pgettext",
-        "plural-context": "npgettext"
+      "functions": { // Optional: change functions names
+        "gettext": "gettext",
+        "ngettext": "ngettext",
+        "pgettext": "pgettext",
+        "npgettext": "npgettext"
       }
     }
   }

@@ -1,19 +1,19 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import Message from './Message';
-import { PoFile } from './File';
-import { poRead } from './Reader';
+
 import { absolutePath, findAll, RegexNamedGroups } from '../helpers/index';
+
+import { PoMessage, PoFile, poRead } from './index';
 
 function getSource(pattern: string): string {
 
   return glob.sync(pattern).map(fileName => fs.readFileSync(fileName, 'utf-8')).join('\n\n');
 }
 
-function readSource(filesPattern: string, functionWrappers: RegexNamedGroups[]): Message[] {
+function readSource(filesPattern: string, functionWrappers: RegexNamedGroups[]): PoMessage[] {
 
   let source = getSource(filesPattern);
-  let response: Message[] = [];
+  let response: PoMessage[] = [];
 
   functionWrappers.forEach(fw => {
 
@@ -24,7 +24,7 @@ function readSource(filesPattern: string, functionWrappers: RegexNamedGroups[]):
       let singular = m[fw.getGroupIndex("singular")];
       let plural = m[fw.getGroupIndex("plural")];
       // let number = m[fw.getGroupIndex("number")];
-      return new Message(singular, [], [], context?context:"", plural?plural:"");
+      return new PoMessage(singular, [], [], context?context:"", plural?plural:"");
     }))
   });
 

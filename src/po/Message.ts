@@ -1,4 +1,4 @@
-export default class Message {
+export class PoMessage {
 
   constructor (public msgid: string, public msgstr: string[] = [''], public comments: string[] = [], public msgctxt: string = '', public msgid_plural: string = ''){}
 

@@ -4,13 +4,21 @@ Extract and compile messages to localize a web app using Regular Expressions.
 This package intends to work simliar to django's makemessages and compilemessages commands.
 
 ## Installation
+
+### Local
 ```
 npm i makemessages
+```
+
+### Global
+```
 npm i -g makemessages
 ```
 
 ## Usage
-if you install locally, change your package.json:
+### Configuring CLI
+#### Local
+Change your package.json:
 ```javascript
 {
   // ...
@@ -26,13 +34,13 @@ if you install locally, change your package.json:
 npm run makemessages -- -c "./makemessages.json"
 npm run compilemessages -- -c "./compilemessages.json"
 ```
-if you install globally:
+#### Global
 ```
 makemessages -c "./makemessages.json"
 compilemessages -c "./compilemessages.json"
 ```
 
-### Configuration
+## Configuration
 makemessages json configuration file must have a list to how to process your files
 
 Example:
@@ -40,8 +48,8 @@ Example:
 [
   {
     "type": "po", // Valid types: po (only .po files implemented for now)
-    "input": "./test/samples/**/*.js", // glob pattern to search your files
-    "output": "./test/samples/po/", // if there is already some previous file in this folder, next result will be a merge between existing messages and new found ones
+    "input": "./path/to/your/source/**/*.js", // glob pattern to search your files
+    "output": "./path/to/locale/po/", // if there is already some previous file in this folder, next result will be a merge between existing messages and new found ones
     "functions": [ // Array<string> that will initiate regular expression objects to look for your messages
         "(?:^|[^$\\w])gettext\\(['\"](?<singular>.*?)['\"]\\)",
         "(?:^|[^$\\w])pgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"]\\)",
@@ -73,31 +81,37 @@ Example:
 compilemessages.json example
 ```javascript
 [
-  { // Every instance has a input and output with a type and target
+  {
     "input": {
       "type": "po",
-      "target": "./test/samples/po/*.po" 
+      "target": "./path/to/locale/po/*.po" 
     },
     "output": {
       "type": "json",
-      "target": "./test/samples/json/"
+      "target": "./path/to/locale/json/"
     }
   },
   {
     "input": {
       "type": "po",
-      "target": "./test/samples/po/*.po" 
+      "target": "./path/to/locale/po/*.po" 
     },
     "output": {
-      "type": "javascript", // Output not implemented yet
-      "target": "./test/samples/js/"
+      "type": "javascript",
+      "target": "./path/to/locale/js/",
+      "functions": { // Optional: change functions names
+        "gettext": "gettext",
+        "ngettext": "ngettext",
+        "pgettext": "pgettext",
+        "npgettext": "npgettext"
+      }
     }
   }
 ]
 ```
 Expected output
 ```
-./path/to/output/
+./path/to/locale/
   po/
     en.po
     pt.po
@@ -106,8 +120,11 @@ Expected output
     en.json
     pt.json
     pt-br.json
+  js/
+    en.js
+    pt.js
+    pt-br.js
 ```
 
-### Next features
-* Output a javascript file with an encapsulated function
+## Next features
 * Optinal configuration: removing old messeges not found

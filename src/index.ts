@@ -16,6 +16,7 @@ export function makemessages(configs) {
 
 import { poReadMultiple, PoFile } from './po/index';
 import { jsonPo } from './json/index';
+import { javascriptPo } from './javascript/index';
 
 export function compilemessages(configs) {
 
@@ -32,10 +33,10 @@ export function compilemessages(configs) {
 
 		switch(config.output.type) {
 		case 'javascript':
-			// javascriptCreate(config.output.target);
+			javascriptPo(input, config.output);
 			break;
 		case 'json':
-			jsonPo(input, config.output.target); // jsonCreate(config.output.target);
+			jsonPo(input, config.output); // jsonCreate(config.output.target);
 			break;
 		default: 
 			throw new Error("Invalid configuration type, expected: javascript or json");

@@ -51,10 +51,10 @@ Example:
     "input": "./path/to/your/source/**/*.js", // glob pattern to search your files
     "output": "./path/to/locale/po/", // if there is already some previous file in this folder, next result will be a merge between existing messages and new found ones
     "functions": [ // Array<string> that will initiate regular expression objects to look for your messages
-        "(?:^|[^$\\w])gettext\\(['\"](?<singular>.*?)['\"]\\)",
-        "(?:^|[^$\\w])pgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"]\\)",
-        "(?:^|[^$\\w])ngettext\\(['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)",
-        "(?:^|[^$\\w])npgettext\\(['\"](?<context>.*?)['\"],\\s*['\"](?<singular>.*?)['\"],\\s*['\"](?<plural>.*?)['\"],\\s*(?<number>\\d*)\\)"
+        "(?:^|[^$\\w])gettext\\(\\s*['\"](?<singular>.*?)['\"]\\s*\\)",
+        "(?:^|[^$\\w])pgettext\\(\\s*['\"](?<context>.*?)['\"]\\s*,\\s*['\"](?<singular>.*?)['\"]\\s*\\)",
+        "(?:^|[^$\\w])ngettext\\(\\s*['\"](?<singular>.*?)['\"]\\s*,\\s*['\"](?<plural>.*?)['\"]\\s*,\\s*(?<number>\\d*)\\s*\\)",
+        "(?:^|[^$\\w])npgettext\\(\\s*['\"](?<context>.*?)['\"]\\s*,\\s*['\"](?<singular>.*?)['\"]\\s*,\\s*['\"](?<plural>.*?)['\"]\\s*,\\s*(?<number>\\d*)\\s*\\)"
     ],
     "languages": {
       "en": "English",

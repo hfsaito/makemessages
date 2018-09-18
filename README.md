@@ -1,4 +1,8 @@
 # makemessages
+
+[![NPM version][npm-verision-img]][npm-url]
+[![NPM license][npm-license-img]][npm-url]
+
 Extract and compile messages to localize a web app using Regular Expressions.
 
 This package intends to work simliar to django's makemessages and compilemessages commands.
@@ -127,4 +131,13 @@ Expected output
 ```
 
 ## Next features
-* Optinal configuration: removing old messeges not found
+> PO
+> * Remove Old Messages - Configurable
+> * Reference Position - Configurable
+
+> Javascript
+> * interpolate function
+
+[npm-url]: https://www.npmjs.com/package/makemessages
+[npm-verision-img]: https://img.shields.io/npm/v/makemessages.svg
+[npm-license-img]: https://img.shields.io/npm/l/makemessages.svg

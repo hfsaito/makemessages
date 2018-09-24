@@ -3,12 +3,13 @@
     "things\u0004{n} books": "{n} books",
     "dog": "dog\ndog",
     "Testing\nKeep Testing": "Testing",
-    "Password": "",
-    "Rules": "",
-    "Username": "",
-    "Egg": "",
-    "Eggs": "",
-    "weekday\u0004Sunday": "",
-    "weekday\u0004Sundays": "",
-    "fruit\u0004orange": ""
+    "Password": "Password",
+    "Rules": "Rules",
+    "Username": "Username",
+    "Egg": "Egg",
+    "Eggs": "Eggs",
+    "weekday\u0004Sunday": "Sunday",
+    "weekday\u0004Sundays": "Sundays",
+    "fruit\u0004orange": "orange",
+    "Testing %(module)s": "Testing %(module)s"
 }

@@ -9,8 +9,8 @@ function jsonFromPoMessage(message: PoMessage): { [index: string]: string } {
   if (message.msgid) {
 
     let prefix = message.msgctxt?(message.msgctxt + '\x04'):'';
-    let key = prefix + message.msgid, value = message.msgstr[0]?message.msgstr[0]:'';
-    let keyPlural = prefix + message.msgid_plural, valuePlural = message.msgstr[1]?message.msgstr[1]:'';
+    let key = prefix + message.msgid, value = message.msgstr[0]?message.msgstr[0]:message.msgid;
+    let keyPlural = prefix + message.msgid_plural, valuePlural = message.msgstr[1]?message.msgstr[1]:message.msgid_plural;
     
     key = key.replace(/\\n/g, '\u000a');
     keyPlural = keyPlural.replace(/\\n/g, '\u000a');

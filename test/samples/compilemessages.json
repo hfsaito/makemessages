@@ -17,7 +17,7 @@
     "output": {
       "type": "javascript",
       "target": "./test/samples/js/",
-      "functions": { // Optional: change functions names
+      "functions": {
         "gettext": "gettext",
         "ngettext": "ngettext",
         "pgettext": "pgettext",

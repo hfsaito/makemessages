@@ -11,7 +11,7 @@
     }
   };
   
-  mm.catalog = mm.catalog || {"Testing\nKeep Testing":"","Username":"","Password":"","Rules":"","Egg":"","Eggs":"","weekday\u0004Sunday":"","weekday\u0004Sundays":"","fruit\u0004orange":""};
+  mm.catalog = mm.catalog || {"Testing\nKeep Testing":"Testing\nKeep Testing","Username":"Username","Password":"Password","Rules":"Rules","Egg":"Egg","Eggs":"Eggs","weekday\u0004Sunday":"Sunday","weekday\u0004Sundays":"Sundays","fruit\u0004orange":"orange","Testing %(module)s":"Testing %(module)s"};
   
   var newcatalog = {};
   for (var key in newcatalog) {
@@ -57,6 +57,63 @@
         value = mm.ngettext(singular, plural, count);
       }
       return value;
+    };
+
+    mm.interpolate = function(fmt, obj, named) {
+
+      if (named)
+
+        return fmt.replace(/%((w+?))(c|s|b|d|o|x|X|f|j)/g, function(match, name, varformat, offset, text) {
+
+          if (typeof(obj[name]) == 'undefined')
+            return match;
+          
+          switch(varformat) {
+          case 'c':
+            if (String(obj[name]).length > 1)
+              throw 'Expected a character';
+          case 's':
+            return String(obj[name]);
+          case 'b':
+          case 'd':
+          case 'o':
+          case 'x':
+          case 'X':
+            return '' + parseInt(obj[name]);
+          case 'f':
+            return '' + parseFloat(obj[name]);
+          case 'j':
+            return JSON.stringfy(obj[name]);
+          }
+
+          return match;
+        });
+
+      return fmt.replace(/%(c|s|b|d|o|x|X|f|j)/g, function(match, varformat, offset, text) {
+
+        if (typeof(obj[0]) == 'undefined')
+          return match;
+        
+        switch(varformat) {
+        case 'c':
+          if (String(obj[0]).length > 1)
+            throw 'Expected a character';
+        case 's':
+          return String(obj.shift());
+        case 'b':
+        case 'd':
+        case 'o':
+        case 'x':
+        case 'X':
+          return '' + parseInt(obj.shift());
+        case 'f':
+          return '' + parseFloat(obj.shift());
+        case 'j':
+          return JSON.stringfy(obj.shift());
+        }
+
+        return match;
+      });
     };
 
     scope.pluralidx = mm.pluralidx;

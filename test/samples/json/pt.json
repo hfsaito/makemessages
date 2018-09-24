@@ -1,11 +1,12 @@
 {
-    "Testing\nKeep Testing": "",
-    "Username": "",
-    "Password": "",
-    "Rules": "",
-    "Egg": "",
-    "Eggs": "",
-    "weekday\u0004Sunday": "",
-    "weekday\u0004Sundays": "",
-    "fruit\u0004orange": ""
+    "Testing\nKeep Testing": "Testing\nKeep Testing",
+    "Username": "Username",
+    "Password": "Password",
+    "Rules": "Rules",
+    "Egg": "Egg",
+    "Eggs": "Eggs",
+    "weekday\u0004Sunday": "Sunday",
+    "weekday\u0004Sundays": "Sundays",
+    "fruit\u0004orange": "orange",
+    "Testing %(module)s": "Testing %(module)s"
 }

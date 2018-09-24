@@ -135,9 +135,6 @@ Expected output
 > * Remove Old Messages - Configurable
 > * Semantic Comments following [GNU PO format][gnu-po-format] 
 
-> Javascript
-> * Interpolate function following [GNU javascript format][gnu-js-format]
-
 <!-- badges -->
 [npm-url]: https://www.npmjs.com/package/makemessages
 [npm-verision-img]: https://img.shields.io/npm/v/makemessages.svg
@@ -145,4 +142,3 @@ Expected output
 
 <!-- Reference -->
 [gnu-po-format]: https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html
-[gnu-js-format]: https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html#javascript_002dformat

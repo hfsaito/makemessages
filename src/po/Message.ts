@@ -1,13 +1,13 @@
 export class PoMessage {
 
-  constructor (public msgid: string, public msgstr: string[] = [''], public comments: string[] = [], public msgctxt: string = '', public msgid_plural: string = ''){}
+  constructor(public msgid: string, public msgstr: string[] = [''], public comments: string[] = [], public msgctxt: string = '', public msgid_plural: string = '') { }
 
   private msgPotFormat(msg: string): string {
 
-    msg = msg?msg:'';
+    msg = msg ? msg : '';
     if (/\\n/g.test(msg))
-      return `""\n${msg.split('\\n').map((m, i, l) => { 
-        
+      return `""\n${msg.split('\\n').map((m, i, l) => {
+
         if (i < (l.length - 1))
           return `"${m}\\n"`;
         if (m.length > 0)
@@ -50,7 +50,7 @@ export class PoMessage {
     return `msgstr ${this.msgPotFormat(this.msgstr[0])}\n`;
   }
 
-  get pot(): string {
+  pot(keepOld: boolean = true): string {
 
     let pot = '';
     pot += this.commentsPot;
@@ -58,6 +58,10 @@ export class PoMessage {
     pot += this.msgidPot;
     pot += this.msgid_pluralPot;
     pot += this.msgstrPot;
+
+    // if (!keepOld)
+    //   pot = pot.replace(/^[^\n]+\n/gm, '# $&');
+
     return pot;
   }
 };

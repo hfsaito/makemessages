@@ -1,6 +1,6 @@
 {
   "name": "makemessages",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Extract and compile messages to localize a web app",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/hiroshifariassaito/makemessages#readme",
   "bin": {
-    "makemessages": "bin/makemessages"
+    "makemessages": "bin/makemessages",
+    "compilemessages": "bin/compilemessages"
   },
   "devDependencies": {
     "typescript": "^3.0.1"
